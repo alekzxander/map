@@ -5,38 +5,44 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>map interactif</title>
+	<link href="https://fonts.googleapis.com/css?family=PT+Sans|Roboto+Mono" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="leaflet/leaflet.css">
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-	<h1>Last test one two one two</h1>
+
 			<div class="jumbotron">
 				<div class="container">
+						
+					 <div class="trait"></div>
+						<h2>LE SODIAC AU <strong>SERVICE DE LA REUNION</strong> </h2>
+						<h3>Les points d'intêret regroupant <strong>nos principals constructions</strong></h3>
 					<div class="row">
-						<div class="col-md-6">
-							<label class="checkbox-inline"><input type="checkbox" checked="true"  id="check1" name="optradio" >Habitation</label>
-							<label class="checkbox-inline"><input type="checkbox" checked="true" id="check2" name="optradio" >Logement</label>
-							<label class="checkbox-inline"><input type="checkbox" checked="true" id="check3" name="optradio" >Amenagement</label>
-							<label class="checkbox-inline"><input type="checkbox" checked="true" id="check4" name="optradio" >Ingenierie</label>
-							<div id="marquage" class="trait"></div>
-							<h2>LE SODIAC AU <strong>SERVICE DE LA REUNION</strong></h2>
-							<h3>Le parc <strong>locatif</strong> de sodia constitue :</h3>
-							<h1 class="chiffre">2384</h1>
-							<h4>logement</h4>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse culpa natus mollitia, ea dolores neque blanditiis 
-							</p>
-							<p><button class="btn-success"><a href="http://sodiac.red-samurai.net/habitat">En savoir plus</a></button></p>
-						</div>
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div id="map">
-								
-							</div>
+										<div class="block_check">
+											<label class="checkbox"><input type="checkbox" class="btn_check" checked="true"  id="habitat" name="optradio" >Habitation</label>
+											<label class="checkbox"><input type="checkbox" class="btn_check" checked="true" id="logement" name="optradio" >Logement</label>
+											<label class="checkbox"><input type="checkbox" class="btn_check" checked="true" id="amenagement" name="optradio" >Amenagement</label>
+											<label class="checkbox"><input type="checkbox" class="btn_check" checked="true" id="projet" name="optradio" >Ingenierie</label>
+											</div>	
+								<div class="signal">
+							  		 <div class="icone">
+										<span><i class="fa fa-check-circle fa-3x"></i></span>
+									 </div>
+								  <div class="alert">
+									<h5 class="informateur">Zoom Desactivé</h5>
+								  </div>	
+						    </div>								
 						</div>
+							
 					</div>
 				</div>
+				<div class="trait"></div>
 			</div>
-
+		</div>
 				<script type="text/javascript" src="leaflet/leaflet.js"></script>
 		<script src="http://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
 		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

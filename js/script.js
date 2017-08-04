@@ -61,95 +61,64 @@ let tableau =[
 
 
 let map = L.map('map').setView([-21.120, 55.532], 9);
-map.scrollWheelZoom.disable();
 
-L.tileLayer("https://api.tiles.mapbox.com/v2/dakno.map-xxbpkb1z/{z}/{x}/{y}.png", {minZoom :9 , maxZoom : 14, 
+
+L.tileLayer('https://api.tiles.mapbox.com/v2/dakno.map-xxbpkb1z/{z}/{x}/{y}.png', {minZoom :9 , maxZoom : 18, 
   attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
+		
 
 
 
 $(document).ready(function(){
+map.scrollWheelZoom.disable();
+let changeText = document.querySelector('.informateur');
 
 	//Activation du zoom de la carte et desactivation au click
  	map.on('click', function() {
 	  	if (map.scrollWheelZoom.enabled()) {
+	  	
+	  		$('.fa-check-circle').css('color','#d86b50')
 	    	map.scrollWheelZoom.disable();
+	    	changeText.innerHTML = "Zoom Desactivé"
+	    	
 	    }else{
+
+	    	$('.fa-check-circle').css('color', '#58ad4f')
 	    	map.scrollWheelZoom.enable();
+	    	changeText.innerHTML = "Zoom Activé"
+	    	
 	    }
 });
+  
+ 
 // $$$$$$$$$$$$FIN de l'activation
-
-
-
+let Categorie = {amenagement : L.layerGroup().addTo(map),
+ 				logement : L.layerGroup().addTo(map),
+ 				 habitat : L.layerGroup().addTo(map),
+ 				projet : L.layerGroup().addTo(map) 
+ 			};
 	for(i=0; i < tableau.length; i++){
 		let latitude = tableau[i].lat;
 		let longitute = tableau[i].lng;
 		let type = tableau[i].type;
 		let popup = tableau[i].popup;
 
-let amenagement =  L.layerGroup().addTo(map);
-let logement = L.layerGroup().addTo(map);
-let habitat = L.layerGroup().addTo(map);
-let projet = L.layerGroup().addTo(map);
-		
-
-	if(type === 'habitat'){
-		
-		marker1 = L.marker([latitude, longitute]).bindPopup(popup);	
-		habitat.addLayer(marker1)
-
-	}
-	if(type === 'logement'){
-		marker2 = L.marker([latitude,longitute]).bindPopup(popup);
-		logement.addLayer(marker2)
-	}
-	if(type === 'amenagement'){
-		marker3 = L.marker([latitude,longitute]).bindPopup(popup);
-		amenagement.addLayer(marker3)
-	}
-	if(type === 'projet'){
-		marker4 = L.marker([latitude,longitute]).bindPopup(popup);
-		projet.addLayer(marker4)
-	}
+marker = L.marker([latitude, longitute]).bindPopup(popup);	
+		Categorie[type].addLayer(marker);
 
 
-$('#check1').on('click',function(){
+$('.btn_check').on('click',function(){
 
-	if((document).querySelector('#check1').checked ===true){
-		habitat.addTo(map);
+	
+	var id = $(this).attr('id');
+
+	if($(this).is(':checked')){
+		Categorie[id].addTo(map);
 	}else{	
-		map.removeLayer(habitat);
+		map.removeLayer(Categorie[id]);
 	}
 });
-$('#check3').on('click',function(){
-	if((document).querySelector('#check3').checked === true){
-		amenagement.addTo(map);
-	}else{
-		map.removeLayer(amenagement);	
-	}
- })
-$('#check2').on('click',function(){
-	if((document).querySelector('#check2').checked === true){
-		logement.addTo(map);
-	}else{
-		map.removeLayer(logement);	
-	}
-})
-
-
-$('#check4').on('click',function(){
-	if((document).querySelector('#check4').checked === true){
-		projet.addTo(map);
-	}else{
-		map.removeLayer(projet);	
-	}
-})
-
-
-
-
 }//boucle for
 
 	});		

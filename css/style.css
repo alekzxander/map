@@ -1,12 +1,25 @@
-#map { height: 450px; width: 450px; }
+#map { height: 450px; width: 100%; margin-left: auto; position: relative;}
 .trait { width: 80px; background: green; height: 4px; border-radius: 7px; margin : auto;
-	margin-top: 80px; }
-button { width:  180px; border: none;border-radius: 8px; padding-top: 14px;
- cursor: pointer;}
-.btn-success a { color: white; text-decoration: none; } 
+	margin-top: 60px; margin-bottom: 20px;}
+body {font-family: 'Roboto Mono', monospace;}
+
 .jack { height: 270px; margin-left: 4px; }
-.leaflet-popup-content-wrapper, .leaflet-popup-tip {background: #e8eefc;width: 260px; text-align: justify;} 
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {background: #e8eefc;width: 260px; text-align: justify; z-index: 1550} 
 .leaflet-popup-content-wrapper img { height: 110px;width: 220px; border-radius: 6px; box-shadow: 0px 2px 3px #dee5e8; }
 .leaflet-popup-content-wrapper button { width: 150px; height: 30px; border:none;border-radius: 6px; background: #58ad4f; color: white; margin-left: 34px;
 font-size: 15px; text-align: center; margin-bottom:  5px; margin-top: 10px; padding-bottom: 35px;}
 .chiffre { color:#58ad4f;}
+.jumbotron { background-color: white; position: relative; }
+
+.block_check { background: white; width: 150px; height: 120px; border-radius: 2px; position: absolute; z-index: 1200; opacity: 0.6;
+margin-left: 87.4%; }
+.block_check:hover { opacity: 1; }
+.checkbox { text-transform: uppercase; margin-left: 35px; }
+h2 { text-align: center; margin-bottom: 10px; }
+h3 { width: 350px; text-align: center; margin: auto; text-transform: uppercase; margin-bottom: 40px; }
+.signal { position: absolute;z-index: 1400; margin-top: 390px;margin-left: 20px; display: flex; }
+.fa-check-circle { color:#d86b50;}
+
+.informateur{ color: white; margin:10px; width: 120px;}
+
+
