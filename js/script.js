@@ -1,6 +1,11 @@
-// Markers personalisées
-let greenIcon = {
-    iconUrl: 'images/marker-icon-2x-green.png',
+// MARKERS PERSONNALISES (pour ajout ou suppression : la variable URL et else if)
+let markerImmobilierE = 'images/marker-icon-2x-blue.png';
+let markerHabitat = 'images/marker-icon-2x-green.png';
+let markerAmenagment = 'images/marker-icon-2x-orange.png';
+let markerIngenierie = 'images/marker-icon-2x-grey.png';
+
+let markerDefault = {
+    iconUrl: markerHabitat,
     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
     iconSize: [25, 41],
     shadowSize: [41, 41],
@@ -8,9 +13,28 @@ let greenIcon = {
     // shadowAnchor: [4, 62],  // the same for the shadow
     popupAnchor: [1, -34],
 };
+
+function attributionMarker(x){
+	if(x == "immobilierE"){
+		markerDefault.iconUrl = markerImmobilierE;
+	} 
+	else if(x == "habitat"){
+		markerDefault.iconUrl = markerHabitat;
+	}
+	else if(x == "amenagement"){
+		markerDefault.iconUrl = markerAmenagment;
+	}
+	else if(x == "ingenierie"){
+		markerDefault.iconUrl = markerIngenierie;
+	}else{
+		alert("Le marker de cette catégorie n'a pas été défini, veuillez l'ajouter")
+	}
+	return markerDefault.iconUrl;
+}
 // *********************FIN de markers personnalisés
 
-let tableau =[
+// BASE DE DONNEES
+let dataTab =[
 	{
 	type : 'habitat',
 	lat: -20.904788036065646, lng: 55.498504064567086, popup : '<img src="images/sodiac.jpg" alt=""/><br>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos, tenetur. Molestias nemo sint, beatae quasi corporis unde sapiente ad, et vitae saepe fugit. Delectus, culpa et minus cupiditate voluptate soluta.<button>Apercu</button>'},
@@ -65,8 +89,10 @@ let tableau =[
     {
 	type : 'ingenierie',
 	lat: -20.926038, lng: 55.454804, popup : '<img src="images/sodiac3.jpeg" alt=""/><br>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos, tenetur. Molestias nemo sint, beatae quasi corporis unde sapiente ad, et vitae saepe fugit. Delectus, culpa et minus cupiditate voluptate soluta.<button>Apercu</button>' },
-	 	];	
+];
+// **********FIN de base de données
 
+// INITIALISATION DE LA MAP
 let map = L.map('map').setView([-21.120, 55.532], 9);
 
 L.tileLayer('https://api.tiles.mapbox.com/v2/dakno.map-xxbpkb1z/{z}/{x}/{y}.png', 
@@ -77,15 +103,16 @@ L.tileLayer('https://api.tiles.mapbox.com/v2/dakno.map-xxbpkb1z/{z}/{x}/{y}.png'
 	}).addTo(map);	
 
 $(document).ready(function(){
+
+	//ACTIVATION ON/OFF DU ZOOM MAP AU CLIQUE (sur la map) + message en bas à gauche de la map
 	map.scrollWheelZoom.disable();
 	let changeText = document.querySelector('.informateur');
 
-	//Activation du zoom de la carte et desactivation au click
  	map.on('click', function() {
 	  	if (map.scrollWheelZoom.enabled()) {
 	  		$('.fa-check-circle').css('color','#d86b50');
 	    	map.scrollWheelZoom.disable();
-	    	changeText.innerHTML = "Zoom Desactivé";
+	    	changeText.innerHTML = "Zoom Désactivé";
 	    }else{
 	    	$('.fa-check-circle').css('color', '#58ad4f');
 	    	map.scrollWheelZoom.enable();
@@ -94,6 +121,7 @@ $(document).ready(function(){
 	}); 
 	// $$$$$$$$$$$$FIN de l'activation
 
+	//COUCHES DES MARKERS
 	let Categorie = {
 		immobilierE : L.layerGroup().addTo(map),
 		habitat : L.layerGroup().addTo(map),
@@ -101,34 +129,23 @@ $(document).ready(function(){
 		ingenierie : L.layerGroup().addTo(map), 
 	};
 
-	for(i=0; i < tableau.length; i++){
-		let latitude = tableau[i].lat;
-		let longitute = tableau[i].lng;
-		let type = tableau[i].type;
-		let popup = tableau[i].popup;
-		// let markerIcon = "";
+	//LECTURE DES DONNEES ET ATTRIBUTIONS DES CARACTERISTIQUES
+	for(i=0; i < dataTab.length; i++){
+		let latitude = dataTab[i].lat;
+		let longitute = dataTab[i].lng;
+		let type = dataTab[i].type;
+		let popup = dataTab[i].popup;
 
-		function attributionMarker(x, y){
-			if(x == "immobilierE"){
-				greenIcon.iconUrl = 'images/marker-icon-2x-blue.png';
-			} 
-			else if(x == "habitat"){
-				// markerIcon = greenIcon;
-			}
-			else if(x == "amenagement"){
-				greenIcon.iconUrl = 'images/marker-icon-2x-orange.png';
-			}
-			else if(x == "ingenierie"){
-				greenIcon.iconUrl = 'images/marker-icon-2x-grey.png';
-			}
-			return greenIcon.iconUrl;
-		}
+		// ATTRIBUTION DES MARKERS SELON TYPE
 		attributionMarker(type);
-		let placeIcon = L.icon(greenIcon);
+		console.log(type)
 
+		// PLACEMENT DES MARKERS
+		let placeIcon = L.icon(markerDefault);
 		marker = L.marker([latitude, longitute],{icon: placeIcon}).bindPopup(popup);	
 		Categorie[type].addLayer(marker);
 
+		// FILTRE
 		$('.btn_check').on('click',function(){
 			let id = $(this).attr('id');
 			if($(this).is(':checked')){
