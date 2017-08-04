@@ -1,45 +1,13 @@
 // Markers personalisées
-let greenIcon = L.icon({
+let greenIcon = {
     iconUrl: 'images/marker-icon-2x-green.png',
     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-
     iconSize: [25, 41],
     shadowSize: [41, 41],
     iconAnchor: [12, 41],
     // shadowAnchor: [4, 62],  // the same for the shadow
     popupAnchor: [1, -34],
-});
-
-let blueIcon = L.icon({
-    iconUrl: 'images/marker-icon-2x-blue.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    iconSize: [25, 41],
-    shadowSize: [41, 41],
-    iconAnchor: [12, 41],
-    // shadowAnchor: [4, 62],  // the same for the shadow
-    popupAnchor: [1, -34],
-});
-
-let orangeIcon = L.icon({
-    iconUrl: 'images/marker-icon-2x-orange.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    iconSize: [25, 41],
-    shadowSize: [41, 41],
-    iconAnchor: [12, 41],
-    // shadowAnchor: [4, 62],  // the same for the shadow
-    popupAnchor: [1, -34],
-});
-
-let greyIcon = L.icon({
-    iconUrl: 'images/marker-icon-2x-grey.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-
-    iconSize: [25, 41],
-    shadowSize: [41, 41],
-    iconAnchor: [12, 41],
-    // shadowAnchor: [4, 62],  // the same for the shadow
-    popupAnchor: [1, -34],
-});
+};
 // *********************FIN de markers personnalisés
 
 let tableau =[
@@ -101,9 +69,12 @@ let tableau =[
 
 let map = L.map('map').setView([-21.120, 55.532], 9);
 
-L.tileLayer('https://api.tiles.mapbox.com/v2/dakno.map-xxbpkb1z/{z}/{x}/{y}.png', {minZoom :9 , maxZoom : 18, 
-  attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-}).addTo(map);	
+L.tileLayer('https://api.tiles.mapbox.com/v2/dakno.map-xxbpkb1z/{z}/{x}/{y}.png', 
+	{
+		minZoom :9 , 
+		maxZoom : 18, 
+		attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+	}).addTo(map);	
 
 $(document).ready(function(){
 	map.scrollWheelZoom.disable();
@@ -112,17 +83,13 @@ $(document).ready(function(){
 	//Activation du zoom de la carte et desactivation au click
  	map.on('click', function() {
 	  	if (map.scrollWheelZoom.enabled()) {
-	  	
 	  		$('.fa-check-circle').css('color','#d86b50');
 	    	map.scrollWheelZoom.disable();
 	    	changeText.innerHTML = "Zoom Desactivé";
-	    	
 	    }else{
-
 	    	$('.fa-check-circle').css('color', '#58ad4f');
 	    	map.scrollWheelZoom.enable();
 	    	changeText.innerHTML = "Zoom Activé";
-	    	
 	    }
 	}); 
 	// $$$$$$$$$$$$FIN de l'activation
@@ -139,31 +106,31 @@ $(document).ready(function(){
 		let longitute = tableau[i].lng;
 		let type = tableau[i].type;
 		let popup = tableau[i].popup;
-		let markerIcon = "";
+		// let markerIcon = "";
 
-		function attributionMarker(e){
-			if(type == "immobilierE"){
-				markerIcon = blueIcon;
+		function attributionMarker(x, y){
+			if(x == "immobilierE"){
+				greenIcon.iconUrl = 'images/marker-icon-2x-blue.png';
 			} 
-			else if(type == "habitat"){
-				markerIcon = greenIcon;
+			else if(x == "habitat"){
+				// markerIcon = greenIcon;
 			}
-			else if(type == "amenagement"){
-				markerIcon = orangeIcon;
+			else if(x == "amenagement"){
+				greenIcon.iconUrl = 'images/marker-icon-2x-orange.png';
 			}
-			else if(type == "ingenierie"){
-				markerIcon = greyIcon;
+			else if(x == "ingenierie"){
+				greenIcon.iconUrl = 'images/marker-icon-2x-grey.png';
 			}
+			return greenIcon.iconUrl;
 		}
+		attributionMarker(type);
+		let placeIcon = L.icon(greenIcon);
 
-		attributionMarker();
-
-		marker = L.marker([latitude, longitute],{icon: markerIcon}).bindPopup(popup);	
+		marker = L.marker([latitude, longitute],{icon: placeIcon}).bindPopup(popup);	
 		Categorie[type].addLayer(marker);
 
 		$('.btn_check').on('click',function(){
 			let id = $(this).attr('id');
-
 			if($(this).is(':checked')){
 				Categorie[id].addTo(map);
 			}else{	
@@ -171,5 +138,4 @@ $(document).ready(function(){
 			}
 		});
 	}//boucle for
-
 });
